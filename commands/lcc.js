@@ -45,11 +45,9 @@ module.exports = {
         }
 
         async function displayLCC(btd6_map) {
-            // Load the BTD6 Index
-            doc = await GoogleSheetsHelper.load(GoogleSheetsHelper.BTD6_INDEX_KEY);
-            
             // Load the LCC spreadsheet
-            const sheet = GoogleSheetsHelper.sheetByName(doc, 'lcc');
+            console.log(Btd6Index);
+            const sheet = GoogleSheetsHelper.sheetByName(Btd6Index, 'lcc');
 
             // Load the column containing the different maps
             await sheet.loadCells(`${COLS.MAP}${MIN_ROW}:${COLS.MAP}${MAX_ROW}`); // loads all possible cells with map
