@@ -46,7 +46,6 @@ module.exports = {
 
         async function displayLCC(btd6_map) {
             // Load the LCC spreadsheet
-            console.log(Btd6Index);
             const sheet = GoogleSheetsHelper.sheetByName(Btd6Index, 'lcc');
 
             // Load the column containing the different maps
