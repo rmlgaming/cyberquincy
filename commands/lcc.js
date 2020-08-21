@@ -30,7 +30,6 @@ module.exports = {
             return module.exports.helpMessage(message);
         }
 
-        // `q!lcc {map}`
         try{
             var btd6_map = CommandParser.parse(
                 args,
@@ -45,9 +44,8 @@ module.exports = {
         }
 
         async function displayLCC(btd6_map) {
-            // Load the LCC spreadsheet
             const sheet = GoogleSheetsHelper.sheetByName(Btd6Index, 'lcc');
-
+            
             // Load the column containing the different maps
             await sheet.loadCells(`${COLS.MAP}${MIN_ROW}:${COLS.MAP}${MAX_ROW}`); // loads all possible cells with map
     
