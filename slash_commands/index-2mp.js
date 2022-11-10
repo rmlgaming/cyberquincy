@@ -317,7 +317,7 @@ function embed2MPMapDifficulty(combo, mapDifficulty) {
     const numCombosPossible = permittedMapAbbrs.length - impossibleMaps.length;
     let possiblePhrasing;
     if (mapsLeft.length > 0) {
-        possiblePhrasing = impossibleMaps.length > 0 ? ' (that are possible)' : '';
+        possiblePhrasing = impossibleMaps.length > 0 ? ' (where placement is possible)' : '';
         challengeEmbed.addFields([
             { name: `Combos${possiblePhrasing}`, value: `**${numCombosCompleted}**/${numCombosPossible}` }
         ]);
@@ -360,6 +360,7 @@ async function display2MPFilterAll(interaction, combos, parsed, mtime) {
     let mapColumn = [];
 
     let numOGCompletions = 0;
+    let erroredYet = false
 
     // Retrieve og- and alt-map notes from each tower row
     for (const combo of combos) {
@@ -374,8 +375,9 @@ async function display2MPFilterAll(interaction, combos, parsed, mtime) {
                 OG: mapCompletion.OG || false
             };
 
-            if (!canonicalCompletion.MAP) {
+            if (!canonicalCompletion.MAP && !erroredYet) {
                 interaction.reply({content: `Index Entry Error: ${map} is not a valid quincybot map abbreviation (check ${combo.ENTITY})`})
+                erroredYet = true
                 continue
             }
 

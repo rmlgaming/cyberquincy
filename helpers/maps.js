@@ -48,6 +48,21 @@ function allMapsFromMapDifficulty(mapDifficulty) {
     }
 }
 
+function mapToMapDifficulty(m) {
+    const formattedMap = Aliases.toAliasCanonical(m)
+    if (beginnerMaps().includes(formattedMap)) {
+        return 'beginner'
+    } else if (intermediateMaps().includes(formattedMap)) {
+        return 'intermediate'
+    } else if (advancedMaps().includes(formattedMap)) {
+        return 'advanced'
+    } else if (expertMaps().includes(formattedMap)) {
+        return 'expert'
+    } else {
+        throw 'not a map'
+    }
+}
+
 function beginnerMaps() {
     return Aliases.getAliasGroupsFromSameFileAs('LOGS').map(
         (ag) => ag.canonical
@@ -101,7 +116,7 @@ function indexMapAbbreviationToNormalForm(mapAbbr) {
 }
 
 function indexNormalFormToMapAbbreviation(map) {
-    mapToIndexAbbreviation(
+    return mapToIndexAbbreviation(
         Aliases.toAliasNormalForm(map)
     );
 }
@@ -126,6 +141,7 @@ module.exports = {
     allWaterMaps,
     allNonWaterMaps,
     allMapsFromMapDifficulty,
+    mapToMapDifficulty,
     beginnerMaps,
     intermediateMaps,
     advancedMaps,
