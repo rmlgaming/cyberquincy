@@ -76,6 +76,8 @@ async function execute(interaction) {
         // sort towers in descending priority order, high priority should be looked at first
         towers.sort((a, b) => (TOWER_PRIORITIES.get(b) || 0) - (TOWER_PRIORITIES.get(a) || 0));
 
+        console.log(towers)
+
         const allUpgradeSets = allUpgradeCrosspathSets();
 
         for (let tower of towers) {
@@ -131,6 +133,59 @@ async function execute(interaction) {
                 }
             }
         }
+
+        const rows = []
+        const rowsFormatted = []
+        for (let i = 1; i <= dpSize; ++i) {
+            const r = []
+            let cost = 0
+            if (bagSize[i] !== Infinity) {
+                cost = i * 5;
+                let j = i;
+                while (j > 0) {
+                    r.push(costsDiv5ToUpgrade.get(lastItem[j]));
+                    j -= lastItem[j];
+                }
+                rows.push([cost, bagSize[i], r])
+                rowsFormatted.push(`$${cost} (${bagSize[i]}): ${r.join('; ')}`)
+            }
+        }
+
+        console.log('yeet')
+
+        require('fs').writeFile(
+
+            './cache/sacrifices.txt',
+        
+            rowsFormatted.join("\n"),
+        
+            function (err) {
+                if (err) {
+                    console.error('Crap happens');
+                }
+            }
+        );
+
+        const towerAppearances = rows.map(r => r[2]).flat().map(tu => tu.split('#')[0])
+        console.log(rows.map(r => r[2]).flat())
+        const towerCounts = {};
+
+        for (const num of towerAppearances) {
+            towerCounts[num] = towerCounts[num] ? towerCounts[num] + 1 : 1;
+        }
+
+        require('fs').writeFile(
+
+            './cache/sacrifices_statistics.json',
+        
+            JSON.stringify(towerCounts),
+        
+            function (err) {
+                if (err) {
+                    console.error('Crap happens');
+                }
+            }
+        );
 
         let resultCost = 0;
         let result = [];
